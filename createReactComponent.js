@@ -1,61 +1,40 @@
 #! /usr/bin/env node
 
-var fs         = require("fs");
-var path       = require("path");
-var program    = require("commander");
-var changeCase = require("change-case");
+const fs         = require("fs");
+const path       = require("path");
+const program    = require("commander");
+const changeCase = require("change-case");
+
+const reactTemplate = require('./reactTemplate');
+const scssTemplate = require('./scssTemplate');
+const indexTemplate = require('./indexTemplate');
+
 
 function run(name, options) {
 
-  var dir       = path.resolve(name);
-  var stylesExt = options.styles || "css";
-  var styles    = path.resolve(dir, name + "." + stylesExt)
-  var jsx       = path.resolve(dir, name + ".jsx");
-  var js        = path.resolve(dir, name + ".js");
-  var index     = path.resolve(dir, "index.js");
+  const dir       = path.resolve(name);
+  const stylesExt = options.styles || "css";
+  const styles    = path.resolve(dir, name + ".scss")
+  const jsx       = path.resolve(dir, name + ".jsx");
+  const js        = path.resolve(dir, name + ".js");
+  const index     = path.resolve(dir, "index.js");
 
-var jsContent = `import React    from "react";
-import template from "./${name}.jsx";
-
-class ${name} extends React.Component {
-  render() {
-    return template.call(this);
-  }
-}
-
-export default ${name};
-`;
-
-var jsxContent = `import "./${name}.${stylesExt}";
-import React from "react";
-
-function template() {
-  return (
-    <div className="${changeCase.paramCase(name)}">
-      <h1>${name}</h1>
-    </div>
-  );
-};
-
-export default template;
-`;
-
-var indexContent = `import ${name} from "./${name}";
-export default ${name};
-`;
+  const jsxContent = reactTemplate({ name });
+  const scssContent = scssTemplate({ className: name });
+  const indexContent = indexTemplate({ name });
 
   fs.mkdirSync("./"+name);
-  fs.openSync(styles, "w");
-  fs.writeSync(fs.openSync(js, "w"), jsContent);
+  // fs.openSync(styles, "w");
   fs.writeSync(fs.openSync(jsx, "w"), jsxContent);
+  fs.writeSync(fs.openSync(styles, "w"), scssContent);
   fs.writeSync(fs.openSync(index, "w"), indexContent);
   console.log("Finished");
 
 }
 
 program
-  .version('0.0.1')
-  .option('-s, --styles [extension]', 'styles extension [default: css]')
+  // .version('0.0.1')
+  // .option('-s, --styles [extension]', 'styles extension [default: scss]')
   .arguments('<name>')
   .action(run)
   .parse(process.argv);
