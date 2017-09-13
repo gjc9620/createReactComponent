@@ -1,4 +1,4 @@
-# Generate React Component
+# Create React Component
 
 
 ```
