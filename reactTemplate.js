@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 class ${name} extends React.Component {
   render() {
     return (
-      <section></section>
+      <section className='${name}'></section>
     )
   }
 }
