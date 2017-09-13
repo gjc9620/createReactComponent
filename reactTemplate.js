@@ -1,3 +1,6 @@
+const paramCase = require('param-case');
+
+
 module.exports = function reactTemplate ({
   name = 'template',
 }) {
@@ -11,7 +14,7 @@ import { connect } from 'react-redux';
 class ${name} extends React.Component {
   render() {
     return (
-      <section className='${name}'></section>
+      <section className='${paramCase(name)}'></section>
     )
   }
 }

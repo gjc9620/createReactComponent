@@ -1,7 +1,10 @@
+const paramCase = require('param-case');
+
+
 module.exports = function scssTemplate ({
   className = 'template',
 }) {
-  return `.${className.toLowerCase()}{
+  return `.${paramCase(className)}{
   display: flex;
 }
 
