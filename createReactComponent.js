@@ -14,7 +14,7 @@ function run(name, options) {
 
   const dir       = path.resolve(name);
   const stylesExt = options.styles || "css";
-  const styles    = path.resolve(dir, name + ".scss")
+  const styles    = path.resolve(dir, name + ".less")
   const jsx       = path.resolve(dir, name + ".jsx");
   const js        = path.resolve(dir, name + ".js");
   const index     = path.resolve(dir, "index.js");
